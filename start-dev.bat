@@ -1,0 +1,9 @@
+@echo off
+set "PATH=%PATH%;C:\Program Files\nodejs"
+echo Adding Node.js to PATH...
+node -v
+echo Installing dependencies...
+npm install
+echo Starting local development server...
+npm run dev
+pause
