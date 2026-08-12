@@ -26,6 +26,7 @@ import RewardsView from './pages/dashboard/RewardsView'
 import WalletView from './pages/dashboard/WalletView'
 import SettingsPage from './pages/dashboard/SettingsPage'
 import AdminModerationPage from './pages/dashboard/AdminModerationPage'
+import AiHubPage from './pages/dashboard/AiHubPage'
 
 // Status Pages
 import UnauthorizedPage from './pages/status/UnauthorizedPage'
@@ -64,6 +65,7 @@ function App() {
           <Route path="reviews" element={<ReviewsView />} />
           <Route path="rewards" element={<RewardsView />} />
           <Route path="wallet" element={<WalletView />} />
+          <Route path="ai-hub" element={<AiHubPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="admin/moderation" element={<AdminModerationPage />} />
         </Route>

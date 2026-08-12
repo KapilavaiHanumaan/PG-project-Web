@@ -14,6 +14,7 @@ import {
   X,
   UserCheck,
   ShieldAlert,
+  Cpu,
 } from 'lucide-react'
 import { useAuthStore } from '../../store/useAuthStore'
 import { toast } from '../../utils/toast'
@@ -25,6 +26,7 @@ const baseNavItems = [
   { path: '/dashboard/reviews', label: 'Reviews & Trust', icon: MessageSquareQuote },
   { path: '/dashboard/rewards', label: 'Rewards', icon: Award, badge: '1,250 Pts' },
   { path: '/dashboard/wallet', label: 'Wallet', icon: Wallet, badge: '₹850' },
+  { path: '/dashboard/ai-hub', label: 'AI Intelligence Hub', icon: Cpu, badge: 'AI' },
   { path: '/dashboard/settings', label: 'Settings', icon: Settings },
 ]
 

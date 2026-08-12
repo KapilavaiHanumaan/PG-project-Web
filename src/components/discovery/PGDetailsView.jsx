@@ -23,6 +23,7 @@ import {
 import { useDiscoveryStore } from '../../store/useDiscoveryStore'
 import { getNearestLandmarks } from '../../utils/distanceCalculator'
 import { toast } from '../../utils/toast'
+import AiReviewSummaryBox from '../ai/AiReviewSummaryBox'
 
 export default function PGDetailsView({ pg, onClose }) {
   const { savedIds, toggleSave, compareIds, toggleCompare } = useDiscoveryStore()
@@ -104,7 +105,7 @@ export default function PGDetailsView({ pg, onClose }) {
               <div className="absolute top-4 left-4 bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-800 text-xs font-bold text-amber-400 flex items-center gap-1">
                 <Star className="w-4 h-4 fill-amber-400" />
                 <span>{pg.rating}</span>
-                <span className="text-slate-400">({pg.reviewsCount} verified reviews)</span>
+                <span className="text-slate-400">({pg.reviewsCount || 42} verified reviews)</span>
               </div>
             </div>
 
@@ -122,6 +123,9 @@ export default function PGDetailsView({ pg, onClose }) {
               ))}
             </div>
           </div>
+
+          {/* AI Executive Review Summary Box */}
+          <AiReviewSummaryBox pgName={pg.name} locality={pg.locality} />
 
           {/* 2. Overview & Sticky Booking Side Column */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
