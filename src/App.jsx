@@ -25,6 +25,7 @@ import ReviewsView from './pages/dashboard/ReviewsView'
 import RewardsView from './pages/dashboard/RewardsView'
 import WalletView from './pages/dashboard/WalletView'
 import SettingsPage from './pages/dashboard/SettingsPage'
+import AdminModerationPage from './pages/dashboard/AdminModerationPage'
 
 // Status Pages
 import UnauthorizedPage from './pages/status/UnauthorizedPage'
@@ -64,6 +65,7 @@ function App() {
           <Route path="rewards" element={<RewardsView />} />
           <Route path="wallet" element={<WalletView />} />
           <Route path="settings" element={<SettingsPage />} />
+          <Route path="admin/moderation" element={<AdminModerationPage />} />
         </Route>
 
         {/* Status Pages */}

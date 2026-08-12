@@ -13,15 +13,16 @@ import {
   ChevronLeft,
   X,
   UserCheck,
+  ShieldAlert,
 } from 'lucide-react'
 import { useAuthStore } from '../../store/useAuthStore'
 import { toast } from '../../utils/toast'
 
-const navItems = [
+const baseNavItems = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { path: '/dashboard/search', label: 'Search PGs', icon: Search },
   { path: '/dashboard/saved', label: 'Saved PGs', icon: Heart, badge: '4' },
-  { path: '/dashboard/reviews', label: 'Reviews', icon: MessageSquareQuote },
+  { path: '/dashboard/reviews', label: 'Reviews & Trust', icon: MessageSquareQuote },
   { path: '/dashboard/rewards', label: 'Rewards', icon: Award, badge: '1,250 Pts' },
   { path: '/dashboard/wallet', label: 'Wallet', icon: Wallet, badge: '₹850' },
   { path: '/dashboard/settings', label: 'Settings', icon: Settings },
@@ -45,6 +46,11 @@ export default function Sidebar({ isOpen, onClose }) {
       : role === 'student'
       ? 'Student'
       : 'Member'
+
+  const navItems = [
+    ...baseNavItems,
+    { path: '/dashboard/admin/moderation', label: 'Admin Moderation', icon: ShieldAlert },
+  ]
 
   return (
     <>

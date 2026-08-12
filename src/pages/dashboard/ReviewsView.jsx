@@ -1,73 +1,86 @@
-import React from 'react'
-import { Star, MessageSquareQuote, ShieldCheck, Award, Plus } from 'lucide-react'
-import { toast } from '../../utils/toast'
-
-const userReviews = [
-  {
-    id: 'rev-1',
-    pgName: 'Sri Sai Deluxe Executive PG',
-    location: 'Gachibowli',
-    rating: 5.0,
-    date: '10 Aug 2026',
-    comment: 'Exceptional food quality! North Indian thali is prepared fresh twice daily. Clean rooms and fast 200Mbps Wi-Fi.',
-    status: 'Verified & Rewarded (+250 Pts)',
-  },
-  {
-    id: 'rev-2',
-    pgName: 'Stanza Living Cyber Hub',
-    location: 'HITECH City',
-    rating: 4.5,
-    date: '25 July 2026',
-    comment: 'Great security with biometric doors. Housekeeping comes every morning without fail.',
-    status: 'Verified & Rewarded (+250 Pts)',
-  },
-]
+import React, { useState } from 'react'
+import { Plus, ShieldCheck, Star, BarChart2, ShieldAlert, Sparkles } from 'lucide-react'
+import ReviewerReputationCard from '../../components/reviews/ReviewerReputationCard'
+import ReviewDisplayList from '../../components/reviews/ReviewDisplayList'
+import ReviewSubmissionModal from '../../components/reviews/ReviewSubmissionModal'
+import StayVerificationModal from '../../components/reviews/StayVerificationModal'
+import ReviewAnalyticsDashboard from '../../components/reviews/ReviewAnalyticsDashboard'
+import FakeReviewDetector from '../../components/reviews/FakeReviewDetector'
+import ReviewModerationPanel from '../../components/reviews/ReviewModerationPanel'
 
 export default function ReviewsView() {
-  const handleWriteReview = () => {
-    toast.info('Write Review', 'Select a PG from Search tab to submit a verified physical review.')
-  }
+  const [activeTab, setActiveTab] = useState('feed') // 'feed' | 'analytics' | 'fraud' | 'moderation'
+  const [showSubmitModal, setShowSubmitModal] = useState(false)
+  const [showVerifyModal, setShowVerifyModal] = useState(false)
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-8 max-w-7xl mx-auto font-sans pb-16">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-white">My Reviews & Badges</h1>
-          <p className="text-xs text-slate-400">Write authentic PG reviews and earn PGTrust Reward Points</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Verified Reviews & Trust System
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-400">
+            Hyderabad's #1 receipt-verified PG reviews, trust scores, & reviewer reputation network.
+          </p>
         </div>
 
-        <button
-          onClick={handleWriteReview}
-          className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-lg shadow-blue-600/30 flex items-center gap-2"
-        >
-          <Plus className="w-4 h-4" /> Write New PG Review
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowVerifyModal(true)}
+            className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors flex items-center gap-2"
+          >
+            <ShieldCheck className="w-4 h-4 text-emerald-400" /> Verify Stay Proof
+          </button>
+          <button
+            onClick={() => setShowSubmitModal(true)}
+            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-lg shadow-blue-600/30 transition-all flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" /> Write PG Review (+50 Pts)
+          </button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {userReviews.map((rev) => (
-          <div key={rev.id} className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-xl">
-            <div className="flex items-start justify-between mb-3">
-              <div>
-                <h3 className="text-base font-bold text-white">{rev.pgName}</h3>
-                <span className="text-xs text-slate-400">{rev.location}, Hyderabad</span>
-              </div>
-              <div className="flex items-center gap-1 bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded-lg border border-amber-500/20 text-xs font-bold">
-                <Star className="w-3.5 h-3.5 fill-amber-400" /> {rev.rating}
-              </div>
-            </div>
+      {/* Reviewer Reputation Card */}
+      <ReviewerReputationCard onOpenVerificationModal={() => setShowVerifyModal(true)} />
 
-            <p className="text-xs text-slate-300 italic mb-4">"{rev.comment}"</p>
-
-            <div className="pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
-              <span className="text-slate-500">{rev.date}</span>
-              <span className="text-emerald-400 font-semibold bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20 flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5" /> {rev.status}
-              </span>
-            </div>
-          </div>
-        ))}
+      {/* Main Tabs Navigation */}
+      <div className="flex items-center gap-2 border-b border-slate-800 pb-3 overflow-x-auto scrollbar-none">
+        {[
+          { id: 'feed', label: 'Verified Reviews Feed', icon: Star },
+          { id: 'analytics', label: 'Review Analytics', icon: BarChart2 },
+          { id: 'fraud', label: 'AI Fake Review Detector', icon: ShieldAlert },
+          { id: 'moderation', label: 'Admin Moderation', icon: ShieldCheck },
+        ].map((tab) => {
+          const Icon = tab.icon
+          const isActive = activeTab === tab.id
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                isActive
+                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+              }`}
+            >
+              <Icon className="w-4 h-4" />
+              <span>{tab.label}</span>
+            </button>
+          )
+        })}
       </div>
+
+      {/* Tab Panels */}
+      {activeTab === 'feed' && <ReviewDisplayList />}
+      {activeTab === 'analytics' && <ReviewAnalyticsDashboard />}
+      {activeTab === 'fraud' && <FakeReviewDetector />}
+      {activeTab === 'moderation' && <ReviewModerationPanel />}
+
+      {/* Modals */}
+      <ReviewSubmissionModal isOpen={showSubmitModal} onClose={() => setShowSubmitModal(false)} />
+      <StayVerificationModal isOpen={showVerifyModal} onClose={() => setShowVerifyModal(false)} />
     </div>
   )
 }
