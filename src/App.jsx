@@ -18,6 +18,8 @@ import ProfileCompletionWizard from './pages/auth/ProfileCompletionWizard'
 // Dashboard Shell & Sub-views
 import DashboardLayout from './components/dashboard/DashboardLayout'
 import DashboardHome from './pages/dashboard/DashboardHome'
+import SearchPGsView from './pages/dashboard/SearchPGsView'
+import PGDetailPage from './pages/dashboard/PGDetailPage'
 import SavedPGsView from './pages/dashboard/SavedPGsView'
 import ReviewsView from './pages/dashboard/ReviewsView'
 import RewardsView from './pages/dashboard/RewardsView'
@@ -55,7 +57,8 @@ function App() {
           }
         >
           <Route index element={<DashboardHome />} />
-          <Route path="search" element={<DashboardHome />} />
+          <Route path="search" element={<SearchPGsView />} />
+          <Route path="pg/:id" element={<PGDetailPage />} />
           <Route path="saved" element={<SavedPGsView />} />
           <Route path="reviews" element={<ReviewsView />} />
           <Route path="rewards" element={<RewardsView />} />
