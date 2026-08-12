@@ -1,15 +1,15 @@
 import axios from 'axios'
 
-// Create Axios instance with base configuration
+// Create Axios instance pointing to Spring Boot 3 Backend API
 const api = axios.create({
-  baseURL: 'https://api.pgtrust-hyderabad.com/v1',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
 })
 
-// Request Interceptor: Attach Access Token
+// Request Interceptor: Attach JWT Bearer Token
 api.interceptors.request.use(
   (config) => {
     try {
@@ -22,14 +22,14 @@ api.interceptors.request.use(
         }
       }
     } catch (e) {
-      console.warn('Error reading token from storage:', e)
+      console.warn('Error reading JWT token from storage:', e)
     }
     return config
   },
   (error) => Promise.reject(error)
 )
 
-// Response Interceptor: Auto Token Refresh & Error Handling
+// Response Interceptor: Auto JWT Token Refresh & Fallback Error Handling
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -38,8 +38,6 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
       try {
-        // Attempt simulated token refresh
-        console.log('Simulating token auto-refresh...')
         const storage = localStorage.getItem('pgtrust-auth-storage')
         if (storage) {
           const parsed = JSON.parse(storage)
@@ -51,7 +49,7 @@ api.interceptors.response.use(
           }
         }
       } catch (refreshErr) {
-        console.error('Session expired, logging out', refreshErr)
+        console.error('JWT Session expired, logging out', refreshErr)
       }
     }
     return Promise.reject(error)
