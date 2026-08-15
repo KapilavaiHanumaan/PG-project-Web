@@ -41,15 +41,32 @@ api.interceptors.response.use(
         const storage = localStorage.getItem('pgtrust-auth-storage')
         if (storage) {
           const parsed = JSON.parse(storage)
-          if (parsed?.state?.tokens?.refreshToken) {
-            parsed.state.tokens.accessToken = 'mock_refreshed_access_token_' + Date.now()
-            localStorage.setItem('pgtrust-auth-storage', JSON.stringify(parsed))
-            originalRequest.headers.Authorization = `Bearer ${parsed.state.tokens.accessToken}`
-            return api(originalRequest)
+          const refreshToken = parsed?.state?.tokens?.refreshToken
+
+          if (refreshToken) {
+            // Call Spring Boot REST API for access token refresh
+            const refreshRes = await axios.post(
+              `${api.defaults.baseURL}/auth/refresh-token`,
+              { refreshToken },
+              { headers: { 'Content-Type': 'application/json' } }
+            )
+
+            const newAccessToken =
+              refreshRes.data?.data?.accessToken ||
+              refreshRes.data?.accessToken ||
+              refreshRes.data?.data?.token
+
+            if (newAccessToken) {
+              parsed.state.tokens.accessToken = newAccessToken
+              localStorage.setItem('pgtrust-auth-storage', JSON.stringify(parsed))
+              originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
+              return api(originalRequest)
+            }
           }
         }
       } catch (refreshErr) {
-        console.error('JWT Session expired, logging out', refreshErr)
+        console.error('JWT Session expired or refresh token invalid. Clearing auth storage.', refreshErr)
+        localStorage.removeItem('pgtrust-auth-storage')
       }
     }
     return Promise.reject(error)
