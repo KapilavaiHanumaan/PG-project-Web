@@ -55,7 +55,7 @@ export default function SmartRecommendations({ onSelectPG }) {
                 </div>
 
                 <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
-                  <span className="text-sm font-extrabold text-emerald-400">₹{pg.price.toLocaleString()}</span>
+                  <span className="text-sm font-extrabold text-emerald-400">₹{pg.price?.toLocaleString() || '0'}</span>
                   <span className="text-xs text-amber-400 font-bold flex items-center gap-0.5">
                     <Star className="w-3.5 h-3.5 fill-amber-400" /> {pg.rating}
                   </span>

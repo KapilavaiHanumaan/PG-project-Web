@@ -213,11 +213,11 @@ export default function PGDetailsView({ pg, onClose }) {
                 <div>
                   <span className="text-xs text-slate-400 uppercase font-semibold block">Monthly Rent Starting</span>
                   <div className="flex items-baseline gap-1 mt-1">
-                    <span className="text-3xl font-black text-emerald-400">₹{pg.price?.toLocaleString()}</span>
+                    <span className="text-3xl font-black text-emerald-400">₹{pg.price?.toLocaleString() || '0'}</span>
                     <span className="text-xs text-slate-400">/ month</span>
                   </div>
                   <span className="text-xs text-slate-400 mt-1 block">
-                    Refundable Security Deposit: <strong className="text-white">₹{pg.deposit?.toLocaleString()}</strong>
+                    Refundable Security Deposit: <strong className="text-white">₹{pg.deposit?.toLocaleString() || '0'}</strong>
                   </span>
                 </div>
 
@@ -227,8 +227,8 @@ export default function PGDetailsView({ pg, onClose }) {
                     {pg.owner?.name?.[0] || 'O'}
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-white">{pg.owner?.name}</h4>
-                    <span className="text-[10px] font-semibold text-emerald-400">{pg.owner?.badge}</span>
+                    <h4 className="text-xs font-bold text-white">{pg.owner?.name || 'Property Manager'}</h4>
+                    <span className="text-[10px] font-semibold text-emerald-400">{pg.owner?.badge || 'Verified Warden'}</span>
                   </div>
                 </div>
 

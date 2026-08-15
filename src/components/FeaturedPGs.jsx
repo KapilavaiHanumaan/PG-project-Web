@@ -162,7 +162,7 @@ export default function FeaturedPGs({ onSelectPG, filterState }) {
                     <div className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100">
                       <div>
                         <span className="text-[10px] text-slate-500 uppercase font-bold block">Rent / Mo</span>
-                        <span className="text-xl font-extrabold text-slate-900">₹{pg.price.toLocaleString()}</span>
+                        <span className="text-xl font-extrabold text-slate-900">₹{pg.price?.toLocaleString() || '0'}</span>
                       </div>
                       <div className="text-right">
                         <div className="flex items-center gap-1 text-amber-500 font-extrabold text-sm justify-end">

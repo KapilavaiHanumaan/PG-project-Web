@@ -53,7 +53,7 @@ export default function PersonalizedRecommendationsCarousel() {
             </div>
 
             <div className="flex items-center justify-between pt-2 border-t border-slate-800">
-              <span className="text-sm font-black text-emerald-400">₹{pg.price.toLocaleString()}/mo</span>
+              <span className="text-sm font-black text-emerald-400">₹{pg.price?.toLocaleString() || '0'}/mo</span>
               <button
                 onClick={() => setSelectedPGForModal(pg)}
                 className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition-colors flex items-center gap-1"

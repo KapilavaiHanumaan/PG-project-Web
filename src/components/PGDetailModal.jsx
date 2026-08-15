@@ -121,7 +121,7 @@ export default function PGDetailModal({ pg, isOpen, onClose, onOpenLogin }) {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
                   <div className="p-3 bg-white rounded-xl border border-slate-100 shadow-sm">
                     <p className="text-xs text-slate-500 font-medium">Monthly Rent</p>
-                    <p className="text-xl font-extrabold text-slate-900 mt-0.5">₹{pg.price.toLocaleString()} <span className="text-xs font-normal text-slate-500">/mo</span></p>
+                    <p className="text-xl font-extrabold text-slate-900 mt-0.5">₹{pg.price?.toLocaleString() || '0'} <span className="text-xs font-normal text-slate-500">/mo</span></p>
                     <p className="text-[10px] text-emerald-600 font-semibold mt-1">Zero Brokerage Fee</p>
                   </div>
                   <div className="p-3 bg-white rounded-xl border border-slate-100 shadow-sm">
@@ -268,7 +268,7 @@ export default function PGDetailModal({ pg, isOpen, onClose, onOpenLogin }) {
           <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between flex-shrink-0">
             <div>
               <p className="text-xs text-slate-500">Starting From</p>
-              <p className="text-lg font-extrabold text-slate-900">₹{pg.price.toLocaleString()} <span className="text-xs text-slate-500 font-normal">/month</span></p>
+              <p className="text-lg font-extrabold text-slate-900">₹{pg.price?.toLocaleString() || '0'} <span className="text-xs text-slate-500 font-normal">/month</span></p>
             </div>
             <div className="flex gap-3">
               <button 

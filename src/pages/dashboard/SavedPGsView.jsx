@@ -96,7 +96,7 @@ export default function SavedPGsView() {
                   <MapPin className="w-3.5 h-3.5 text-blue-400" /> {item.locality}, Hyderabad
                 </p>
                 <div className="flex items-center justify-between pt-3 border-t border-slate-800">
-                  <span className="text-sm font-extrabold text-emerald-400">₹{item.price.toLocaleString()}/mo</span>
+                  <span className="text-sm font-extrabold text-emerald-400">₹{item.price?.toLocaleString() || '0'}/mo</span>
                   <button
                     onClick={() => setSelectedPGForModal(item)}
                     className="text-xs font-semibold px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl transition-colors flex items-center gap-1"
